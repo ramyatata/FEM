@@ -108,7 +108,9 @@ if(typeof obj.length === "number"){
 }
 
 //$.each
+
 var each = function(collection, fun){
+  // check arrayLike and loop thr
   if(isArrayLike(collection)){
     for(var i=0; i < collection.length; i++){
       var val = collection[i];
@@ -126,5 +128,87 @@ var each = function(collection, fun){
   return collection
 }
 
+
+//makeArray
+var makeArray = function(args){
+  var arr = [];
+ $.each(arr, function(i, val){
+   arr.push(val);
+ });
+  return arr;
+};
+
+//Proxy
+var proxy = function(fn, context){
+ return function(){
+   return fn.apply(context, arguments);
+ };
+}
+
+//$
+var $ = function(selector){
+  var obj = {};
+  var arr = document.querySelectorAll(selector);
+  //Array.prototype.push.apply(this, arr)  or the following
+  for(var i =0; i <= arr.length; i++){
+      this[0] = arr[0];
+  }
+  this.length = arr.length
+  return this;
+}
+
+//html
+var html = function(newHtml){
+  if(arguments){
+    $.each(this, function(i, val){
+      val.innerHTML = newHtml;
+    });
+    return this;
+  }
+  else{
+    return this[0].innerHTML;
+  }
+}
+
+//value
+var val = function(newVal){
+  if(arguments){
+    $.each(this, function(i, el){
+      el.value = newVal;
+    });
+    return this;
+  }
+  else{
+    return this[0].value;
+  }
+}
+
+//text()
+var text = function(newText){
+ if(arguments.length === 1){
+   $.each(this, function(i, val){
+     val.innerHTML = "";
+     var textNode = document.createTextNode(newText);
+     val.appendChild(textNode);
+   });
+   return this;
+ } 
+  else{
+    return this[0] && getText(this[0]);
+  }
+}
+
+function getText(element){
+  var txt = "";
+  $.each(element.childNode, function(i, el){
+    if(el.nodeType === 3){
+      txt += el.nodeValue;
+    }
+    else if(el.nodeType === 1){
+      txt += getText(el);
+    }
+  });
+  return txt;
+}
 
 
