@@ -148,7 +148,12 @@ var proxy = function(fn, context){
 //$
 var $ = function(selector){
   var obj = {};
+  if(typeof selector === 'String'){
   var arr = document.querySelectorAll(selector);
+}
+else{ .  //assuming it is array
+  arr = selector;
+}
   //Array.prototype.push.apply(this, arr)  or the following
   for(var i =0; i <= arr.length; i++){
       this[0] = arr[0];
@@ -211,4 +216,15 @@ function getText(element){
   return txt;
 }
 
-
+//find
+var find = function(selector){
+  var arr = [];
+  $.each(this, function(i, el){
+    
+  var eachArr = el.querySelectorAll(selector);
+    [].push.apply(arr, eachArr);
+    
+  });
+  
+  return $(arr);
+}
