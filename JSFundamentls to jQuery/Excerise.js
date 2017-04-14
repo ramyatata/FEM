@@ -228,3 +228,33 @@ var find = function(selector){
   
   return $(arr);
 }
+
+//Next
+function next(){
+  //need accumulator
+  //find next sibling
+  //if sibling is not text node add to accum
+  //if sibling is textnode then recurse
+  var acc = [];
+  $.each(this, function(i,el){
+    var sib = el.nextSibling;
+    while(sib && sib.nodeValue === 3){
+      sib = sib.nextSibling;
+    }
+    if(current){
+      acc.push(current);
+    }
+  });
+  return $(acc);
+}
+
+//$.parent()
+function parent(){
+  var acc = [];
+  $.each(this, function(i, el){
+    acc.push(el.parentNode);
+  });
+  return $(acc);
+}
+
+//
